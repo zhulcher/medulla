@@ -14,8 +14,8 @@
 #include <vector>
 
 #include "framework.h"
-#include "include/particle_cuts.h"
-#include "include/particle_variables.h"
+#include "particle_cuts.h"
+#include "particle_variables.h"
 
 /**
  * @namespace selectors

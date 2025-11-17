@@ -8,7 +8,7 @@
  */
 #define PLACEHOLDERVALUE std::numeric_limits<double>::quiet_NaN()
 #define PROTON_BINDING_ENERGY 30.9 // MeV
-#define BEAM_IS_NUMI false
+#define BEAM_IS_NUMI true
 
 #include <iostream>
 #include <string>
@@ -21,6 +21,7 @@
 #include "framework.h"
 #include "scorers.h"
 #include "cuts.h"
+#include "kaon_cuts.h"
 #include "variables.h"
 #include "mctruth.h"
 #include "event_cuts.h"
@@ -83,9 +84,10 @@ void error_handler(int level, bool abort, const char * location, const char * me
 
 int main(int argc, char * argv[])
 {
+    static py::scoped_interpreter guard{}; // Python initialized once
     // Set the ROOT error handler to our custom error handler. This allows us
     // to catch errors related to XRootD authentication.
-    SetErrorHandler(error_handler);
+    // SetErrorHandler(error_handler);
 
     // Check if the configuration file is provided as a command line argument
     if (argc < 2)

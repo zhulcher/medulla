@@ -15,7 +15,7 @@
 #define PION_MASS 139.57039
 #define PROTON_MASS 938.2720813
 
-#include "include/particle_utilities.h"
+#include "particle_utilities.h"
 #include "scorers.h"
 
 /**

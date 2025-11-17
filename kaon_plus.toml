@@ -1,0 +1,210 @@
+[parameters]
+photon_threshold = 25.0
+electron_threshold = 25.0
+muon_threshold = 25.0
+pion_threshold = 25.0
+proton_threshold = 25.0
+kaon_threshold = 40.0
+zero_ke=0.0
+Fiducialization=1.0
+Valid_Interaction=1.0
+Primary_KP=1.0
+Initial_HIP=1.0
+Valid_MIP_Len=60483525.0
+Michel_Child=1.0
+Connected_Non_Primary_MIP=1.0
+Low_MIP_len_pi0_Tag=10.0
+Come_to_Rest=-0.65
+Kaon_Len=4.7
+Close_to_Vertex=4.3
+MIP_Child_At_Most_1_Michel=1.0
+No_HIP_Deltas=1.0
+Come_to_Rest_MIP=-0.4
+Single_MIP_Decay=1.0
+Bragg_Peak_HIP=0.0
+# Bragg_Peak_HIP=6.6666666666666
+
+
+
+[general]
+output = "kaons"
+primfn = "default_primary_classification"
+pidfn = "default_pid"
+fsthresh = [
+    "@photon_threshold",
+    "@electron_threshold",
+    "@muon_threshold",
+    "@pion_threshold",
+    "@proton_threshold",
+
+]
+
+# # SBND sample
+# [[sample]]
+# name = "simulation"
+# path = "/pnfs/sbnd/persistent/users/mueller/MCP2025B/simulation/mc5e18/input000.flat.root"
+# ismc = true
+# disable = false # Optional: default = false
+
+# ICARUS sample
+[[sample]]
+name = "simulation"
+# path = "/pnfs/icarus/persistent/users/dcarber/spine/combined_files/NuMI_data_flat_cafs_2/*"
+path = "/pnfs/icarus/persistent/users/dcarber/spine/combined_files/NuMI_CV_flat_cafs_2/*"
+ismc = true
+# disable = true # Optional: default = false
+
+[[tree]]
+name = "selected"
+sim_only = false
+mode = "reco"
+cut = [
+
+    { name = "pass_cuts",            type = "reco",parameters = ["@Fiducialization",
+                                                                    "@Valid_Interaction",
+                                                                    "@Primary_KP",
+                                                                    "@Initial_HIP",
+                                                                    "@Valid_MIP_Len",
+                                                                    "@Michel_Child",
+                                                                    "@Connected_Non_Primary_MIP",
+                                                                    "@Low_MIP_len_pi0_Tag",
+                                                                    "@Come_to_Rest",
+                                                                    "@Kaon_Len",
+                                                                    "@Close_to_Vertex",
+                                                                    "@MIP_Child_At_Most_1_Michel",
+                                                                    "@No_HIP_Deltas",
+                                                                    "@Come_to_Rest_MIP",
+                                                                    "@Single_MIP_Decay",
+                                                                    "@Bragg_Peak_HIP"
+                                                                    ]},
+    
+    # { name = "no_photons",              type = "reco",  parameters = [ "@photon_threshold"   ] },
+    # { name = "no_electrons",            type = "reco",  parameters = [ "@electron_threshold" ] },
+    # { name = "single_muon",             type = "reco",  parameters = [ "@muon_threshold"     ] },
+    # { name = "no_charged_pions",        type = "reco",  parameters = [ "@pion_threshold"     ] },
+    # { name = "single_proton",           type = "reco",  parameters = [ "@proton_threshold"   ] },
+]
+branch = [
+    { name = "neutrino_id",           type = "true"    },
+    { name = "neutrino_energy",       type = "mctruth" },
+    { name = "baseline",              type = "mctruth" },
+    { name = "cc",                    type = "mctruth" },
+    { name = "pdg",                   type = "mctruth" },
+    { name = "category",              type = "true"    },
+    { name = "visible_energy",        type = "both"    },
+]
+
+[[category]] # 0 : Fiducial, single kaon, cc,>min_KE
+cuts = [
+    { name = "neutrino"        },
+    { name = "fiducial_cut"    },
+    {name = "at_least_one_kaon_plus"     , parameters = [ "@kaon_threshold"   ]  },
+    {name = "iscc"           },
+]
+[[category]] # 0 : Fiducial, single kaon, nc,>min_KE
+cuts = [
+    { name = "neutrino"        },
+    { name = "fiducial_cut"    },
+    {name = "at_least_one_kaon_plus"      , parameters = [ "@kaon_threshold"   ]  },
+    {name = "!iscc"           },
+]
+
+[[category]] # 0 : Fiducial, single kaon, cc,<min_KE
+cuts = [
+    { name = "neutrino"        },
+    { name = "fiducial_cut"    },
+    {name = "!at_least_one_kaon_plus"      , parameters = [ "@kaon_threshold"   ]  },
+    {name = "at_least_one_kaon_plus"      , parameters = [ "@zero_ke"   ]  },
+    {name = "iscc"           },
+]
+[[category]] # 0 : Fiducial, single kaon, nc,<min_KE
+cuts = [
+    { name = "neutrino"        },
+    { name = "fiducial_cut"    },
+    {name = "!at_least_one_kaon_plus"      , parameters = [ "@kaon_threshold"   ]  },
+    {name = "at_least_one_kaon_plus"      , parameters = [ "@zero_ke"   ]  },
+    {name = "!iscc"           },
+]
+
+[[category]] # 0 : non-fiducial, single kaon
+cuts = [
+    { name = "neutrino"        },
+    { name = "!fiducial_cut"    },
+    {name = "at_least_one_kaon_plus"      , parameters = [ "@kaon_threshold"   ]  },
+]
+
+
+[[category]] # 4 : Fiducial, CC, non-signal
+cuts = [
+    { name = "neutrino"         },
+    { name = "fiducial_cut"     },
+    { name = "iscc"             }
+]
+
+[[category]] # 5 : Non-fiducial, CC, non-signal
+cuts = [
+    { name = "neutrino"         },
+    { name = "!fiducial_cut"    },
+    { name = "iscc"             },
+]
+
+[[category]] # 6 : NC
+cuts = [
+    { name = "neutrino"         },
+    { name = "!iscc"            },
+]
+[[category]] # 7 : CC
+cuts = [
+    { name = "neutrino"         },
+    { name = "iscc"            },
+]
+
+[[category]] # 8 : Cosmic
+cuts = [
+    { name = "!neutrino"        },
+]
+
+[[category]] # 9 : Other
+cuts = []
+
+
+
+
+
+
+# [[category]] # 1 : Non-fiducial, contained, single muon, single proton
+# cuts = [
+#     { name = "neutrino"        },
+#     { name = "!fiducial_cut"   },
+#     { name = "containment_cut" },
+#     { name = "no_photons",       parameters = [ "@photon_threshold"   ] },
+#     { name = "no_electrons",     parameters = [ "@electron_threshold" ] },
+#     { name = "no_charged_pions", parameters = [ "@pion_threshold"     ] },
+#     { name = "single_muon",      parameters = [ "@muon_threshold"     ] },
+#     { name = "single_proton",    parameters = [ "@proton_threshold"   ] },
+# ]
+
+# [[category]] # 2 : Fiducial, non-contained, single muon, single proton
+# cuts = [
+#     { name = "neutrino"         },
+#     { name = "fiducial_cut"     },
+#     { name = "!containment_cut" },
+#     { name = "no_photons",        parameters = [ "@photon_threshold"   ] },
+#     { name = "no_electrons",      parameters = [ "@electron_threshold" ] },
+#     { name = "no_charged_pions",  parameters = [ "@pion_threshold"     ] },
+#     { name = "single_muon",       parameters = [ "@muon_threshold"     ] },
+#     { name = "single_proton",     parameters = [ "@proton_threshold"   ] },
+# ]
+
+# [[category]] # 3 : Non-fiducial, non-contained, single muon, single proton
+# cuts = [
+#     { name = "neutrino"         },
+#     { name = "!fiducial_cut"    },
+#     { name = "!containment_cut" },
+#     { name = "no_photons",        parameters = [ "@photon_threshold"   ] },
+#     { name = "no_electrons",      parameters = [ "@electron_threshold" ] },
+#     { name = "no_charged_pions",  parameters = [ "@pion_threshold"     ] },
+#     { name = "single_muon",       parameters = [ "@muon_threshold"     ] },
+#     { name = "single_proton",     parameters = [ "@proton_threshold"   ] },
+# ]
+

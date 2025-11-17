@@ -26,6 +26,16 @@ target_link_libraries(test PRIVATE shared CAFAnaCore sbnanaobj_StandardRecord)
 target_include_directories(test PRIVATE include/ ${SBNANA_INC} ${SBNANAOBJ_INC} ${SRPROXY_INC})
 target_compile_features(test PRIVATE cxx_std_17)
 
+execute_process(
+    COMMAND python3 -m pybind11 --cmakedir
+    OUTPUT_VARIABLE pybind11_DIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+set(pybind11_DIR ${pybind11_DIR} CACHE PATH "pybind11 cmake directory")
+
+find_package(pybind11 REQUIRED)
+include_directories(${pybind11_INCLUDE_DIRS})
+
 # Add a common library
 add_library(common INTERFACE)
 
@@ -68,6 +78,10 @@ target_link_libraries(common INTERFACE
     shared
     framework
 )
+
+find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+target_include_directories(common INTERFACE ${Python3_INCLUDE_DIRS})
+target_link_libraries(common INTERFACE ${Python3_LIBRARIES})
 
 target_compile_features(common INTERFACE cxx_std_17)
 
