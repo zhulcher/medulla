@@ -152,8 +152,14 @@ template <class T>
 bool pass_cuts(const T &obj, std::vector<double> cut_params = {})
 {
 
-    py::module_ sys = py::module_::import("sys");
-    sys.attr("path").attr("insert")(0, "../../2x2_Strange");
+    // py::module_ sys = py::module_::import("sys");
+    // sys.attr("path").attr("insert")(0, "../../2x2_Strange");
+    static bool path_added = false;
+    if (!path_added) {
+        py::module_ sys = py::module_::import("sys");
+        sys.attr("path").attr("insert")(0, "../../2x2_Strange");
+        path_added = true;
+        }
 
     static py::module_ analysis = py::module_::import("analysis.analysis_cuts");
     static bool bindings_registered = false;
@@ -220,12 +226,14 @@ bool pass_cuts(const T &obj, std::vector<double> cut_params = {})
     {
         // Now pybind11 knows about Interaction and Particle
         try {
-    if (analysis.attr("K_plus_cut_cascade")(py_obj, the_map, particle).template cast<bool>())
-        return true;
-        } catch (py::error_already_set &e) {
+            if (analysis.attr("K_plus_cut_cascade")(py_obj, the_map, particle).template cast<bool>())
+                return true;
+            } 
+        catch (py::error_already_set &e)
+            {
             std::cerr << "Python error: " << e.what() << std::endl;
-            return false; // or handle appropriately
-}
+            throw;
+            }
     }
 
     return false;

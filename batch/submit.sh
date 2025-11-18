@@ -60,8 +60,19 @@ setup cmake v3_27_4
 
 ups active
 
+
+
+git clone https://github.com/zhulcher/spine.git
+cd spine
+pip install -e .[dev]
+cd ..
+
+git clone https://github.com/zhulcher/2x2_Strange.git
+
+
+pip install pybind11
 # Build medulla
-git clone https://github.com/justinjmueller/medulla.git
+git clone https://github.com/zhulcher/medulla.git
 cd medulla
 git checkout develop
 mkdir build && cd build

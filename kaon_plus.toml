@@ -50,7 +50,7 @@ fsthresh = [
 [[sample]]
 name = "simulation"
 # path = "/pnfs/icarus/persistent/users/dcarber/spine/combined_files/NuMI_data_flat_cafs_2/*"
-path = "/pnfs/icarus/persistent/users/dcarber/spine/combined_files/NuMI_CV_flat_cafs_2/*"
+path = "/pnfs/icarus/persistent/users/dcarber/spine/combined_files/NuMI_CV_flat_cafs_2/*.root"
 ismc = true
 # disable = true # Optional: default = false
 
