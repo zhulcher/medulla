@@ -60,6 +60,8 @@ setup cmake v3_27_4
 
 ups active
 
+pip install "numpy==1.21.6" "scipy==1.10.1" "pandas==1.5.3"
+
 
 
 git clone https://github.com/zhulcher/spine.git

@@ -101,7 +101,7 @@ cuts = [
     {name = "at_least_one_kaon_plus"     , parameters = [ "@kaon_threshold"   ]  },
     {name = "iscc"           },
 ]
-[[category]] # 0 : Fiducial, single kaon, nc,>min_KE
+[[category]] # 1 : Fiducial, single kaon, nc,>min_KE
 cuts = [
     { name = "neutrino"        },
     { name = "fiducial_cut"    },
@@ -109,7 +109,7 @@ cuts = [
     {name = "!iscc"           },
 ]
 
-[[category]] # 0 : Fiducial, single kaon, cc,<min_KE
+[[category]] # 2 : Fiducial, single kaon, cc,<min_KE
 cuts = [
     { name = "neutrino"        },
     { name = "fiducial_cut"    },
@@ -117,7 +117,7 @@ cuts = [
     {name = "at_least_one_kaon_plus"      , parameters = [ "@zero_ke"   ]  },
     {name = "iscc"           },
 ]
-[[category]] # 0 : Fiducial, single kaon, nc,<min_KE
+[[category]] # 3 : Fiducial, single kaon, nc,<min_KE
 cuts = [
     { name = "neutrino"        },
     { name = "fiducial_cut"    },
@@ -126,37 +126,32 @@ cuts = [
     {name = "!iscc"           },
 ]
 
-[[category]] # 0 : non-fiducial, single kaon
+[[category]] # 4 : non-fiducial, single kaon
 cuts = [
     { name = "neutrino"        },
     { name = "!fiducial_cut"    },
     {name = "at_least_one_kaon_plus"      , parameters = [ "@kaon_threshold"   ]  },
 ]
 
+[[category]] # 5 : any other kaon
+cuts = [
+    { name = "neutrino"        },
+    {name = "at_least_one_kaon_plus"      , parameters = [ "@zero_ke"   ]  },
+]
 
-[[category]] # 4 : Fiducial, CC, non-signal
+
+[[category]] # 6 : Fiducial, non-signal
 cuts = [
     { name = "neutrino"         },
     { name = "fiducial_cut"     },
     { name = "iscc"             }
 ]
 
-[[category]] # 5 : Non-fiducial, CC, non-signal
+[[category]] # 7 : Non-fiducial, non-signal
 cuts = [
     { name = "neutrino"         },
     { name = "!fiducial_cut"    },
     { name = "iscc"             },
-]
-
-[[category]] # 6 : NC
-cuts = [
-    { name = "neutrino"         },
-    { name = "!iscc"            },
-]
-[[category]] # 7 : CC
-cuts = [
-    { name = "neutrino"         },
-    { name = "iscc"            },
 ]
 
 [[category]] # 8 : Cosmic

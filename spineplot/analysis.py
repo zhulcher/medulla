@@ -118,6 +118,7 @@ class Analysis:
                     
                         if x['type'] == 'SpineSpectra1D':
                             # Check if the variable is present in all samples
+                            if x['variable'] not in self._variables: raise Exception(x['variable'],"-->",self._variables.keys())
                             if not all(self._variables[x['variable']]._validity_check.values()):
                                 missing_samples = [k for k, v in self._variables[x['variable']]._validity_check.items() if not v]
                                 raise ConfigException(f"Variable '{x['variable']}' not found in all samples ({' '.join(missing_samples)}).")
@@ -200,6 +201,8 @@ class Analysis:
                                           restrict_categories, x.get('title', None))
                             self._figures[fig['name']].register_spine_artist(art, draw_kwargs=x.get('draw_kwargs', {}))
                             self._artists.append(art)
+                        else:
+                            raise Exception(x['type'])
                             
 
     def override_exposure(self, sample_name, exposure, exposure_type='pot') -> None:
